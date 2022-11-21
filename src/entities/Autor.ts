@@ -12,9 +12,7 @@ export class Autor {
     @Column({ type: 'text', nullable: false, comment: "Pais de origem do autor" })
     pais_origem: string
 
-    @ManyToOne(() => Livro, livro => livro.autores, {
-        cascade: true,
-    })
+    @ManyToOne(() => Livro, livro => livro.autores)
     @JoinColumn({ name: 'idlivro' })
     livro: Livro
 }

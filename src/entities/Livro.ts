@@ -1,11 +1,11 @@
 import {
 	Column,
 	Entity,
-	ManyToMany,
 	OneToMany,
 	PrimaryGeneratedColumn,
 } from 'typeorm'
 import { Autor } from './Autor'
+import { Emprestimo } from './Emprestimo'
 
 /* Defini que é uma ENTIDADE */
 @Entity('livros') /*Será a tabela rooms no BD */
@@ -31,10 +31,8 @@ export class Livro {
 
 	/** eager: true faz com que as dependencias retornem na busca PARTE DELETADA > , { eager: true }*/
 	@OneToMany(() => Autor, autor => autor.livro, { eager: true , onDelete:'CASCADE'})
-	autores: Autor[];
-
-	/*
-	@ManyToMany(( ) => Cliente, cliente => cliente.livros )
-    clientes: Cliente[];
-*/
+	autores: Autor[]
+	
+	@OneToMany(() => Emprestimo, emprestimo => emprestimo.livro, { eager: true , onDelete:'CASCADE'})
+	emprestimos: Emprestimo[]	
 }
