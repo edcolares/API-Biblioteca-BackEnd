@@ -1,10 +1,11 @@
 import { Router } from 'express'
+import { ClienteController } from './controllers/ClienteController'
 import { LivroController } from './controllers/LivroController'
-import { livroRepository } from './repositories/livroRepository'
-//import { SubjectController } from './controllers/SubjectController'
+
 
 const routes = Router()
 const livro = new LivroController()
+const cliente = new ClienteController()
 
 
 // ROTAS PARA LIVROS
@@ -21,9 +22,15 @@ routes.put('/autor/:idAutor', livro.atualizarAutor)
 routes.delete('/autor/:idAutor', livro.deletarAutor)
 routes.get('/autor', livro.listAutor)
 
+//ROTAS PARA CLIENTES
+routes.post('/cliente', cliente.create)
+routes.put('/cliente/:idCliente', cliente.update)
+//routes.get('/cliente', cliente.list)
+
 
 //routes.post('/subject', new SubjectController().create)
 //routes.post('/room/:idRoom/subject', new RoomController().roomSubject)
+
 
 
 export default routes
