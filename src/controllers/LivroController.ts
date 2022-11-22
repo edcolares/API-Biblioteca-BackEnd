@@ -7,6 +7,7 @@ import { livroRepository } from '../repositories/livroRepository'
 //import { subjectRepository } from '../repositories/subjectRepository'
 
 export class LivroController {
+
 	async create(req: Request, res: Response) {
 		const { isbn, titulo, editora, ano_publicacao, status } = req.body
 
@@ -48,6 +49,7 @@ export class LivroController {
 		}
 	}
 
+/** teste */
 
 	/*	
 		async roomSubject(req: Request, res: Response) {
@@ -87,7 +89,8 @@ export class LivroController {
 	/****************************** LISTAR TUDO *********************************/
 	async list(req: Request, res: Response) {
 
-		if (!req.body.status) {
+		// if ((req.body.titulo == undefined) || (req.body.status == undefined)) { /** Com erro esse código */
+		if (req.body.titulo == undefined) {
 			console.log("Verdadeiro");
 
 			try {
@@ -105,6 +108,7 @@ export class LivroController {
 				return res.status(500).json({ message: 'Internal Sever Error' })
 			}
 		} else {
+			
 			const status = req.body.status
 			const titulo = req.body.titulo
 
