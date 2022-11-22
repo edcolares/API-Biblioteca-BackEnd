@@ -15,6 +15,8 @@ export class Autor {
     @ManyToOne(() => Livro, livro => livro.autores)
     @JoinColumn({ name: 'idlivro' })
     livro: Livro
+
+    /** Comentario do Edvan */
 }
 
 
