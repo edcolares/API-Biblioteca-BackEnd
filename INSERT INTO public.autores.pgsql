@@ -1,0 +1,15 @@
+INSERT INTO public.autores(idautor, idlivro, nome, pais_origem) VALUES
+(1,1,'Lindsay Bassett','Estados Unidos'),
+(2,2,'Machado de Assis','Brasil'),
+(3,3,'Machado de Assis','Brasil'),
+(4,4,'Machado de Assis','Brasil'),
+(5,5,'Machado de Assis','Brasil'),
+(6,6,'Machado de Assis','Brasil'),
+(7,6,'Luiz Gonzaga Assis de Luca','Brasil'),
+(8,8,'Neyde Veneziano','Brasil'),
+(9,8,'Ary Fontoura','Brasil'),
+(10,7,'Ary Fernandes','Brasil'),
+(11,9,'Virginia Woolf','Canadá'),
+(12,10,'William Shakespeare','Inglaterra'),
+(13,11,'Herman Melville','Estados Unidos'),
+(14,12,'Dante Alighieri','Itália');

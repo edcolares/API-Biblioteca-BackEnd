@@ -22,10 +22,9 @@ export class Cliente {
 	@Column({ type: 'text', nullable: false, comment: "Telefone do Cliente" })
 	telefone: string
 
-	@Column({ type: 'int', nullable: true, comment: "Quantidade de Livro que o Cliente tem locado" })
-	livros_locado: number
+	@Column({ type: 'int', nullable: true, comment: "Quantidade de Livros que o Cliente tem locado" })
+	livros_locados: number
 
 	@OneToMany(() => Emprestimo, emprestimo => emprestimo.cliente, { eager: true , onDelete:'CASCADE'})
 	emprestimos: Emprestimo[]
-
 }

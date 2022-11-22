@@ -13,20 +13,20 @@ export class Livro {
 	@PrimaryGeneratedColumn()
 	idlivro: number
 
-	@Column({ type: 'text', nullable: false, comment: "Código ISBN do Livro" })
+	@Column({ type: 'varchar', length: 13, nullable: false, comment: "Código ISBN do Livro" })
 	isbn: string
 
-	@Column({ type: 'text', nullable: false, comment: "Título do livro" })
+	@Column({ type: 'varchar', length: 150, nullable: false, comment: "Título do livro" })
 	titulo: string
 
-	@Column({ type: 'text', nullable: false, comment: "Editora do livro" })
+	@Column({ type: 'varchar', length: 100, nullable: false, comment: "Editora do livro" })
 	editora: string
 
 	/* Type poderia ser YEAR */
-	@Column({ type: 'text', nullable: false, comment: "Ano de publicação do livro" })
-	ano_publicacao: string
+	@Column({ type: 'int', nullable: true, comment: "Ano de publicação do livro" })
+	ano_publicacao: number
 
-	@Column({ type: 'text', nullable: false, comment: "Status: DISPONIVEL, LOCADO, DANIFICADO" })
+	@Column({ type: 'enum', enum: ["disponivel", "locado", "cancelado"], nullable: false, comment: "Status: DISPONIVEL, LOCADO, CANCELADO" })
 	status: string
 
 	/** eager: true faz com que as dependencias retornem na busca PARTE DELETADA > , { eager: true }*/

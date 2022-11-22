@@ -6,14 +6,14 @@ export class ClienteController {
 
 	async create(req: Request, res: Response) {
 		const { matricula, nome, telefone } = req.body
-		const livros_locado = 0
+		const livros_locados = 0
 
 		if (!matricula) {
 			return res.status(400).json({ message: 'A matricula é obrigatória' })
 		}
 
 		try {
-			const newCliente = clienteRepository.create({ matricula, nome, telefone, livros_locado })
+			const newCliente = clienteRepository.create({ matricula, nome, telefone, livros_locados })
 
 			await clienteRepository.save(newCliente)
 
@@ -24,7 +24,7 @@ export class ClienteController {
 		}
 	}
 
-	/**************************** ATUALIZAR LIVRO******************************/
+	/**************************** ATUALIZAR CLIENTE******************************/
 	async update(req: Request, res: Response) {
 		const { idCliente } = req.params
 
@@ -40,6 +40,4 @@ export class ClienteController {
 		const results = await clienteRepository.save(cliente)
 		return res.send(results)
 	}	
-
-
 }

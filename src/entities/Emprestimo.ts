@@ -7,17 +7,17 @@ export class Emprestimo{
     @PrimaryGeneratedColumn()
     idemprestimo: number
     
-    @Column({type: 'date'})
-    data_emprestimo: string
+    @Column({type: 'date', comment: "Data em que foi realizado o emprestimo"})
+    data_emprestimo: Date
 
-    @Column({type: 'date'})
-    data_retorno: string
+    @Column({type: 'date', comment: "Data prevista para o emprestimo acabar"})
+    data_retorno: Date
 
-    @Column({type: 'date'})
-    data_devolucao: string
+    @Column({type: 'date', nullable: true, comment: "Data em que houve a devolução do emprestimo"})
+    data_devolucao: Date
 
-    @Column({type: 'int'})
-    dias_atraso: string
+    @Column({type: 'int', nullable: true, comment: "Quantidade de dias em que o livro foi devolvido com atraso"})
+    dias_atraso: number
 
     @ManyToOne(() => Livro, livro => livro.emprestimos)
     @JoinColumn({ name: 'idlivro' })
