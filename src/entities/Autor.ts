@@ -16,6 +16,3 @@ export class Autor {
     @JoinColumn({ name: 'idlivro' })
     livro: Livro
 }
-
-
-
