@@ -1,10 +1,8 @@
 import { Console } from 'console'
 import { Request, Response } from 'express'
-import { DataSource, Like } from 'typeorm'
-import { Livro } from '../entities/Livro'
+import { Like } from 'typeorm'
 import { autorRepository } from '../repositories/autorRepository'
 import { livroRepository } from '../repositories/livroRepository'
-//import { subjectRepository } from '../repositories/subjectRepository'
 
 export class LivroController {
 
@@ -49,7 +47,7 @@ export class LivroController {
 		}
 	}
 
-/** teste */
+	/** teste */
 
 	/*	
 		async roomSubject(req: Request, res: Response) {
@@ -108,7 +106,7 @@ export class LivroController {
 				return res.status(500).json({ message: 'Internal Sever Error' })
 			}
 		} else {
-			
+
 			const status = req.body.status
 			const titulo = req.body.titulo
 
@@ -130,6 +128,7 @@ export class LivroController {
 	/************** BUSCA POR NOME DO AUTOR *************************/
 	async listAutor(req: Request, res: Response) {
 		const { nome } = req.body
+		
 		if (!nome) {
 			return res.send("Digite nome do autor")
 		} else {
@@ -149,7 +148,6 @@ export class LivroController {
 				return res.status(500).json({ message: 'Internal Sever Error' })
 			}
 		}
-
 	}
 
 	/**************************** BUSCAR POR ID **************************/
@@ -171,66 +169,86 @@ export class LivroController {
 	async atualizarAutor(req: Request, res: Response) {
 		const { idAutor } = req.params
 
-		const autor = await autorRepository.findOneBy({
-			idautor: Number(idAutor),
-		})
+		try {
+			const autor = await autorRepository.findOneBy({
+				idautor: Number(idAutor),
+			})
 
-		if (!autor) {
-			return res.status(404).json({ message: 'Autor não encontrado.' })
+			if (!autor) {
+				return res.status(404).json({ message: 'Autor não encontrado.' })
+			}
+
+			autorRepository.merge(autor, req.body)
+			const results = await autorRepository.save(autor)
+			return res.send(results)
+		} catch (error) {
+			console.log(error)
+			return res.status(500).json({ message: 'Internal Sever Error' })
 		}
-
-		autorRepository.merge(autor, req.body)
-		const results = await autorRepository.save(autor)
-		return res.send(results)
 	}
 
 	/**************************** ATUALIZAR LIVRO******************************/
 	async atualizar(req: Request, res: Response) {
 		const { idLivro } = req.params
 
-		const livro = await livroRepository.findOneBy({
-			idlivro: Number(idLivro),
-		})
+		try {
+			const livro = await livroRepository.findOneBy({
+				idlivro: Number(idLivro),
+			})
 
-		if (!livro) {
-			return res.status(404).json({ message: 'Livro não foi encontrado.' })
+			if (!livro) {
+				return res.status(404).json({ message: 'Livro não foi encontrado.' })
+			}
+
+			livroRepository.merge(livro, req.body)
+			const results = await livroRepository.save(livro)
+			return res.send(results)
+		} catch (error) {
+			console.log(error)
+			return res.status(500).json({ message: 'Internal Sever Error' })
+
 		}
-
-		livroRepository.merge(livro, req.body)
-		const results = await livroRepository.save(livro)
-		return res.send(results)
 	}
 
 	/******************************* DELETAR *******************************/
 	async deletar(req: Request, res: Response) {
 		const { idLivro } = req.params
 
-		const livro = await livroRepository.findOneBy({
-			idlivro: Number(req.params.idLivro),
-		})
+		try {
+			const livro = await livroRepository.findOneBy({
+				idlivro: Number(req.params.idLivro),
+			})
 
-		if (!livro) {
-			return res.status(404).json({ message: 'Livro não foi encontrado.' })
+			if (!livro) {
+				return res.status(404).json({ message: 'Livro não foi encontrado.' })
+			}
+
+			const results = await livroRepository.remove(livro)
+			return res.send(results)
+		} catch (error) {
+			console.log(error)
+			return res.status(500).json({ message: 'Internal Sever Error' })
 		}
-
-		const results = await livroRepository.remove(livro)
-		return res.send(results)
 	}
 
 	/*************************** DELETAR AUTOR *******************************/
 	async deletarAutor(req: Request, res: Response) {
 		const { idAutor } = req.params
 
-		const autor = await autorRepository.findOneBy({
-			idautor: Number(idAutor),
-		})
+		try {
+			const autor = await autorRepository.findOneBy({
+				idautor: Number(idAutor),
+			})
 
-		if (!autor) {
-			return res.status(404).json({ message: 'Autor não foi encontrado.' })
+			if (!autor) {
+				return res.status(404).json({ message: 'Autor não foi encontrado.' })
+			}
+
+			const results = await autorRepository.remove(autor)
+			return res.send(results)
+		} catch (error) {
+			console.log(error)
+			return res.status(500).json({ message: 'Internal Sever Error' })
 		}
-
-		const results = await autorRepository.remove(autor)
-		return res.send(results)
 	}
-
 }
