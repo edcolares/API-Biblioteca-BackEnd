@@ -18,9 +18,11 @@ export class EmprestimoController {
                                 * idcliente) 
          * }
          */
-    async create(req: Request, res: Response) {
+    async locacao(req: Request, res: Response) {
         const { data_emprestimo, data_retorno, idlivro, idcliente } = req.body
         const { idLivro, idCliente } = req.params
+
+        console.log(req.body)
 
         try {
 
@@ -31,11 +33,11 @@ export class EmprestimoController {
             // !cliente ? ( return res.status(404).json({ message: 'Cliente não foi localizado.' }) )
 
             if (!cliente) {
-                return res.status(404).json({ message: 'Cliente não foi localizado.' })
+                return res.status(204).json({ message: 'Cliente não foi localizado.' })
             }
 
-            if (cliente.livros_locados > 3) {
-                return res.status(404).json({ message: 'Cliente atingiu o limite máximo de livros locados' })
+            if (cliente.livros_locados > 2) {
+                return res.status(204).json({ message: 'Cliente atingiu o limite máximo de livros locados' })
             }
 
             const livro = await livroRepository.findOneBy({
@@ -43,16 +45,39 @@ export class EmprestimoController {
             })
 
             if (livro?.status != "disponivel") {
-                return res.status(404).json({ message: 'Livro indisponível para emprestimo.' })
+                return res.status(204).json({ message: 'Livro indisponível para emprestimo.' })
+            }
+
+
+            const livroCliente = {
+                ...livro,
+                cliente: [cliente],
             }
 
             const newEmprestimo = emprestimoRepository.create({ data_emprestimo, data_retorno })
-			await emprestimoRepository.save(newEmprestimo)
-			return res.status(201).json(newEmprestimo)
+            await emprestimoRepository.save(newEmprestimo)
+            
+            livro.status = "locado"
+            livroRepository.merge(livro)
+            const resultsLivro = await livroRepository.save(livro)
+            
+            cliente.livros_locados ++
+            clienteRepository.merge(cliente)
+            const resultCliente = await clienteRepository.save(cliente)
+
+            return res.status(201).json({resultsLivro, newEmprestimo, resultCliente})
 
         } catch (error) {
             console.log(error)
             return res.status(500).json({ message: 'Internal Server Error' })
         }
     }
+
+
+
+    async entrega(req: Request, res: Response) {
+        const {  } = req.body
+        const { idLivro, idCliente } = req.params
+    }
+
 }

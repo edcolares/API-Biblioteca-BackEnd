@@ -28,6 +28,7 @@ routes.get('/cliente', cliente.list)
 routes.delete('/cliente/:idCliente', cliente.delete)
 
 // ROTAS PARA EMPRESTIMOS
-routes.post('/emprestimo/:idLivro/:idCliente', emprestimo.create)
+routes.post('/emprestimo/:idLivro/:idCliente', emprestimo.locacao)
+routes.put('/emprestimo/:idEmprestimo', emprestimo.entrega)
 
 export default routes
