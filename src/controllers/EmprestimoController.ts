@@ -1,4 +1,4 @@
-import { Console } from 'console'
+import console, { Console, log } from 'console'
 import { Request, Response } from 'express'
 import { emprestimoRepository } from "../repositories/emprestimoRepository";
 import { clienteRepository } from '../repositories/clienteRepository';
@@ -19,10 +19,8 @@ export class EmprestimoController {
          * }
          */
     async locacao(req: Request, res: Response) {
-        const { data_emprestimo, data_retorno, idlivro, idcliente } = req.body
+        const req_Body = req.body
         const { idLivro, idCliente } = req.params
-
-        console.log(req.body)
 
         try {
 
@@ -30,42 +28,57 @@ export class EmprestimoController {
                 idcliente: Number(idCliente),
             })
 
+            //console.log("Valor de CLIENTE: ", cliente);
+
             // !cliente ? ( return res.status(404).json({ message: 'Cliente não foi localizado.' }) )
 
             if (!cliente) {
-                return res.status(204).json({ message: 'Cliente não foi localizado.' })
+                return res.status(200).json({ message: 'Cliente não foi localizado.' })
             }
 
-            if (cliente.livros_locados > 2) {
-                return res.status(204).json({ message: 'Cliente atingiu o limite máximo de livros locados' })
+            if (cliente.livros_locados > 10) {
+                return res.status(200).json({ message: 'Cliente atingiu o limite máximo de livros locados' })
             }
 
             const livro = await livroRepository.findOneBy({
                 idlivro: Number(idLivro),
             })
 
-            if (livro?.status != "disponivel") {
-                return res.status(204).json({ message: 'Livro indisponível para emprestimo.' })
+            //console.log("Valor de LIVRO: ", livro);
+
+            if (livro?.status == "locado") {
+                return res.status(200).json({ message: 'Livro indisponível para emprestimo.' })
             }
 
+/*             const roomUpdate = {
+                ...room,
+                subjects: [subject],
+            } */
 
             const livroCliente = {
-                ...livro,
-                cliente: [cliente],
+                ...req_Body,
+                clientes: [{"idcliente": cliente.idcliente}],
+                livros: [{"idlivro": livro?.idlivro}],
             }
 
-            const newEmprestimo = emprestimoRepository.create({ data_emprestimo, data_retorno })
-            await emprestimoRepository.save(newEmprestimo)
-            
-            livro.status = "locado"
+            console.log("Valor de LIVROCLIENTE: ", livroCliente)
+
+            const newEmprestimo = emprestimoRepository.create(livroCliente)
+            console.log("Valor de newEmprestimo: ", newEmprestimo)
+            await emprestimoRepository.save(livroCliente)
+
+            /* livro.status = "locado"
             livroRepository.merge(livro)
             const resultsLivro = await livroRepository.save(livro)
-            
-            cliente.livros_locados ++
+
+            cliente.livros_locados++
             clienteRepository.merge(cliente)
             const resultCliente = await clienteRepository.save(cliente)
 
-            return res.status(201).json({resultsLivro, newEmprestimo, resultCliente})
+            return res.status(201).json({ resultsLivro, newEmprestimo, resultCliente })
+ */
+
+            return res.status(201).json({ message: "Livro locado com sucesso.", livro })
 
         } catch (error) {
             console.log(error)
@@ -76,8 +89,12 @@ export class EmprestimoController {
 
 
     async entrega(req: Request, res: Response) {
-        const {  } = req.body
-        const { idLivro, idCliente } = req.params
+        const { data_devolucao } = req.body
+        const { idEmprestimo } = req.params
+
+        const emprestimo = await emprestimoRepository.findOneBy({
+            idemprestimo: Number(idEmprestimo),
+        })
     }
 
 }

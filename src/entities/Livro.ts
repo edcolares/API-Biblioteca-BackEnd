@@ -30,9 +30,9 @@ export class Livro {
 	status: string
 
 	/** eager: true faz com que as dependencias retornem na busca PARTE DELETADA > , { eager: true }*/
-	@OneToMany(() => Autor, autor => autor.livro, { eager: true , onDelete:'CASCADE'})
+	@OneToMany(() => Autor, autor => autor.livro, { eager: true , cascade: ['remove']})
 	autores: Autor[]
 	
-	@OneToMany(() => Emprestimo, emprestimo => emprestimo.livro, { eager: true , onDelete:'CASCADE'})
+	@OneToMany(() => Emprestimo, emprestimo => emprestimo.livro, { eager: true })
 	emprestimos: Emprestimo[]	
 }
