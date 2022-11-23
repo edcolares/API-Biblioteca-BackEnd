@@ -34,7 +34,7 @@ export class UserController{
         if(!isValidPassword){
             return res.sendStatus(401).json({message:"Erro de senha, acesso não autorizado!"})
         }
-        const token = jwt.sign({ id: user.id }, 'secret', { expiresIn: '1d' })
+        const token = jwt.sign({ id: user.id }, process.env.JWT_PASS ?? '', { expiresIn: '1d' })
 
         //delete user.password
 
