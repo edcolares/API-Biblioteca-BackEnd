@@ -33,6 +33,6 @@ export class Livro {
 	@OneToMany(() => Autor, autor => autor.livro, { eager: true , cascade: ['remove']})
 	autores: Autor[]
 	
-	@OneToMany(() => Emprestimo, emprestimo => emprestimo.livro, { eager: true })
+	@OneToMany(() => Emprestimo, emprestimo => emprestimo.livro)
 	emprestimos: Emprestimo[]	
 }
