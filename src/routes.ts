@@ -14,7 +14,7 @@ const emprestimo = new EmprestimoController()
 const user = new UserController()
 
 
-
+// ROTAS PARA USUÁRIOS
 routes.post('/users',user.store )
 routes.post('/auth', user.authenticate)
 
