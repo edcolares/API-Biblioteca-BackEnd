@@ -25,6 +25,6 @@ export class Cliente {
 	@Column({ type: 'int', nullable: true, comment: "Quantidade de Livros que o Cliente tem locado" })
 	livros_locados: number
 
-	@OneToMany(() => Emprestimo, emprestimo => emprestimo.cliente, { eager: true })
+	@OneToMany(() => Emprestimo, emprestimo => emprestimo.cliente)
 	emprestimos: Emprestimo[]
 }

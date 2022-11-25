@@ -32,8 +32,8 @@ export class ClienteController {
 	/**UpdateCliente
 	 * Atualizar os dados do cliente 
 	 * Passar por parametro idCliente e os dados para alteração
-	 * no req.body
-	 * */
+	 * no req.body   	 * */
+
 	async update(req: Request, res: Response) {
 		const { idCliente } = req.params
 		try {
@@ -67,10 +67,6 @@ export class ClienteController {
 			try {
 				const clientes = await clienteRepository.find({
 					order: { idcliente: "ASC" },
-					/*		relations: {
-								//subjects: true,
-								autores: true,
-							},*/
 				})
 
 				return res.json(clientes)

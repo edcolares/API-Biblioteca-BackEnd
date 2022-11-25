@@ -19,11 +19,11 @@ export class Emprestimo{
     @Column({type: 'int', nullable: true, comment: "Quantidade de dias em que o livro foi devolvido com atraso"})
     dias_atraso: number
 
-    @ManyToOne(() => Livro, livro => livro.emprestimos)
+    @ManyToOne(() => Livro, livro => livro.emprestimos, {eager: true})
     @JoinColumn({ name: 'idlivro' })
     livro: Livro
 
-    @ManyToOne(() => Cliente, cliente => cliente.emprestimos)
+    @ManyToOne(() => Cliente, cliente => cliente.emprestimos, {eager: true})
     @JoinColumn({ name: 'idcliente' })
     cliente: Cliente
 }
