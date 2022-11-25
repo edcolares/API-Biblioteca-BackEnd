@@ -36,7 +36,7 @@ export class EmprestimoController {
             }
 
             if (cliente.livros_locados > 2) {
-                return res.status(200).json({ message: 'Cliente atingiu o limite máximo de livros locados', cliente })
+                return res.status(200).json({ message: 'Cliente atingiu o limite máximo de livros locados'})
             }
 
             const livro = await livroRepository.findOneBy({
@@ -50,7 +50,7 @@ export class EmprestimoController {
             const newLivro = new Livro()
             newLivro.idlivro = Number(idlivro)
             newLivro.status = "locado"
-            livroRepository.save(newLivro)
+            await livroRepository.save(newLivro)
             
             const newCliente = new Cliente()
             newCliente.idcliente = Number(idcliente)
@@ -94,7 +94,7 @@ export class EmprestimoController {
                 return res.status(404).json({ message: "Não conseguimos localizar o emprestimo, verifique as informações." })
             }
             if (findEmprestimo?.data_devolucao != null) {
-                return res.status(201).json({ message: "Emprestimo já foi prpcessado anteriormente, verifique com o bibliotecário.", findEmprestimo })
+                return res.status(201).json({ message: "Emprestimo já foi processado anteriormente, verifique com o bibliotecário.", findEmprestimo })
             }
 
             let dtDevolucao: string = data_devolucao;
@@ -123,7 +123,7 @@ export class EmprestimoController {
             updLivro.idlivro = findEmprestimo!.livro.idlivro
             const resultLivro = await livroRepository.save(updLivro)
 
-            return res.status(201).json({ message: "Livro devolvido com sucesso!", resultEmprestimo })
+            return res.status(201).json({ message: "Livro devolvido com sucesso!" })
 
         } catch (error) {
             console.log(error)
