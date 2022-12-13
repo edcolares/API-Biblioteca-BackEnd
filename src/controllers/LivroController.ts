@@ -7,6 +7,9 @@ import { livroRepository } from '../repositories/livroRepository'
 export class LivroController {
 
 	async create(req: Request, res: Response) {
+
+		console.log("Valor de Request", req)
+
 		const { isbn, titulo, editora, ano_publicacao, status } = req.body
 
 		try {
@@ -88,6 +91,7 @@ export class LivroController {
 	async list(req: Request, res: Response) {
 
 		// if ((req.body.titulo == undefined) || (req.body.status == undefined)) { /** Com erro esse código */
+				
 		if (req.body.titulo == undefined) {
 			console.log("Verdadeiro");
 

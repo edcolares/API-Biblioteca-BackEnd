@@ -104,7 +104,8 @@ export class EmprestimoController {
             const dataEmp: Date = new Date(dtRetorno)
             let atrasoInMilisec: number = dataDev.getTime() - dataEmp.getTime()
             let diasAtraso: number = Math.ceil(atrasoInMilisec / (1000 * 60 * 60 * 24))
-
+            const dias = (diasAtraso < 0) ? diasAtraso = 0 : diasAtraso
+            
             const findCliente = await clienteRepository.findOneBy({
                 idcliente: findEmprestimo?.cliente.idcliente
             })
@@ -113,7 +114,7 @@ export class EmprestimoController {
             clienteRepository.merge(findCliente!)
             const resultCliente = await clienteRepository.save(findCliente!)
 
-            findEmprestimo!.dias_atraso = diasAtraso
+            findEmprestimo!.dias_atraso = dias
             findEmprestimo!.data_devolucao = data_devolucao
             emprestimoRepository.merge(findEmprestimo!)
             const resultEmprestimo = await emprestimoRepository.save(findEmprestimo!)

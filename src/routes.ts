@@ -19,10 +19,11 @@ routes.post('/users',user.store )
 routes.post('/auth', user.authenticate)
 
 // ROTAS PARA LIVROS
-routes.post('/livro', authMiddleware,livro.create)
+//routes.post('/livro', authMiddleware,livro.create)
+routes.post('/livro', livro.create)
 routes.get('/livro', livro.list)
 routes.post('/livro/:idLivro/create', livro.createAutor)
-routes.get('/livro/:idLivro', authMiddleware,livro.buscarPorId)
+routes.get('/livro/:idLivro', livro.buscarPorId)
 routes.put('/livro/:idLivro', livro.atualizar)
 routes.delete('/livro/:idLivro', livro.deletar)
 
