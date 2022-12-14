@@ -31,6 +31,7 @@ routes.delete('/livro/:idLivro', livro.deletar)
 routes.put('/autor/:idAutor', livro.atualizarAutor)
 routes.delete('/autor/:idAutor', livro.deletarAutor)
 routes.get('/autor', livro.listAutor)
+routes.get('/autor/:idAutor', livro.buscarPorIdAutor)
 
 // ROTAS PARA CLIENTES
 routes.post('/cliente', cliente.create)

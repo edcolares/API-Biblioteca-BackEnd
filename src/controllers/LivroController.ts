@@ -8,9 +8,11 @@ export class LivroController {
 
 	async create(req: Request, res: Response) {
 
-		console.log("Valor de Request", req)
-
-		const { isbn, titulo, editora, ano_publicacao, status } = req.body
+		const isbn = req.body.isbn;
+		const titulo = req.body.titulo;
+		const editora = req.body.editora;
+		const ano_publicacao = req.body.ano_publicacao;
+		const status = req.body.status;
 
 		try {
 			const newLivro = livroRepository.create({ isbn, titulo, editora, ano_publicacao, status })
@@ -91,7 +93,7 @@ export class LivroController {
 	async list(req: Request, res: Response) {
 
 		// if ((req.body.titulo == undefined) || (req.body.status == undefined)) { /** Com erro esse código */
-				
+
 		if (req.body.titulo == undefined) {
 			console.log("Verdadeiro");
 
@@ -129,10 +131,25 @@ export class LivroController {
 		}
 	}
 
+	/**************************** BUSCAR POR ID AUTOR**************************/
+	async buscarPorIdAutor(req: Request, res: Response) {
+		const { idAutor } = req.params
+		try {
+			const autor = await autorRepository.findOneBy({ idautor: Number(idAutor) })
+			if (!autor) {
+				return res.status(404).json({ message: 'Autor não foi encontrado.' })
+			}
+			res.json(autor)
+		} catch (error) {
+			console.log(error)
+			return res.status(500).json({ message: 'Internal Sever Error' })
+		}
+	}
+
 	/************** BUSCA POR NOME DO AUTOR *************************/
 	async listAutor(req: Request, res: Response) {
 		const { nome } = req.body
-		
+
 		if (!nome) {
 			return res.send("Digite nome do autor")
 		} else {
